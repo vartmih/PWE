@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "pwe"
+version = "0.0.1"
+description = "Plan, write down, execute"
+authors = ["Mikhail Vartikyan <m.vartikyan@bk.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.92.0"
+uvicorn = "^0.20.0"
+SQLAlchemy = "^2.0.4"
+alembic = "^1.9.4"
+pytest = "^7.2.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
