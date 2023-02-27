@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  pwe_db:
+    image: postgres:13.3
+    container_name: pwe_db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: ${PGDATA}
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_PORT}:5432"
+
+  pwe_api:
+    container_name: pwe_api
+    build:
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./src:/PWE/src
+    restart: unless-stopped
+    command: python3 src/pwe/app.py
+    ports:
+      - "80:80"
+    depends_on: ['pwe_db']

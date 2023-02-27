@@ -12,6 +12,8 @@ uvicorn = "^0.20.0"
 SQLAlchemy = "^2.0.4"
 alembic = "^1.9.4"
 pytest = "^7.2.1"
+python-dotenv = "^1.0.0"
+psycopg2-binary = "^2.9.5"
 
 
 [build-system]

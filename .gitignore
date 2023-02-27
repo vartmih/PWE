@@ -3,3 +3,5 @@
 .env
 venv
 poetry.lock
+data
+__pycache__
