@@ -20,7 +20,7 @@ services:
     volumes:
       - ./src:/PWE/src
     restart: unless-stopped
-    command: python3 src/pwe/app.py
+    command: python3 src/pwe
     ports:
       - "80:80"
     depends_on: ['pwe_db']
