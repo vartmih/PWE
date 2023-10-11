@@ -2,8 +2,8 @@ from functools import lru_cache
 
 from sqlalchemy.orm import Session
 
-from . import database
-from . import settings
+from pwe import database
+from pwe import settings
 
 
 def get_db() -> Session:

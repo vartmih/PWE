@@ -18,9 +18,9 @@ services:
     build:
       dockerfile: ./Dockerfile
     volumes:
-      - ./src:/PWE/src
+      - .:/PWE
     restart: unless-stopped
     command: python3 src/pwe
     ports:
-      - "80:80"
+      - "8000:8000"
     depends_on: ['pwe_db']

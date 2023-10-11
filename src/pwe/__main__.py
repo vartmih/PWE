@@ -1,6 +1,6 @@
 import uvicorn
 
-from .settings import settings
+from pwe.settings import settings
 
 uvicorn.run(
     "pwe.app:app",
