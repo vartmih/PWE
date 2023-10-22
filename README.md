@@ -1,6 +1,7 @@
 <h1 align="center">PWE - plan, write do, execute.</h1>
 
 ### Быстрый старт:
+Переименовать файл `.env.example` в `.env` и по желанию изменить переменные.
 - ***Docker***:```docker compose up```
 - ***Локально***:  
 ```poetry install``` *- устанавливаем зависимости и виртуальное окружение*  
