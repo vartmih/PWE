@@ -1,4 +1,4 @@
-FROM python:3.10 as pwe_api
+FROM python:3.10
 
 RUN mkdir /PWE
 

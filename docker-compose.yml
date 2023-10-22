@@ -1,17 +1,22 @@
 version: "3.9"
 services:
   pwe_db:
-    image: postgres:13.3
+    image: postgres:15.4
     container_name: pwe_db
     environment:
-      POSTGRES_DB: ${POSTGRES_DB_NAME}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      PGDATA: ${PGDATA}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PGDATA: ${DB_DATA}
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
-      - ./data/db:/var/lib/postgresql/data
+      - ./db_data:${DB_DATA}
     ports:
-      - "${POSTGRES_PORT}:5432"
+      - "${DB_EXPOSE_PORT}:5432"
 
   pwe_api:
     container_name: pwe_api
@@ -20,7 +25,10 @@ services:
     volumes:
       - .:/PWE
     restart: unless-stopped
-    command: python3 src/pwe
+    command: >
+      bash -c "alembic upgrade head && python3 src/pwe/main.py"
     ports:
-      - "8000:8000"
-    depends_on: ['pwe_db']
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    depends_on:
+      pwe_db:
+        condition: service_healthy
