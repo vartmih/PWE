@@ -1,13 +1,18 @@
 import uvicorn
+from fastapi import FastAPI, APIRouter
 
-from fastapi import FastAPI
-
-from pwe.api_v1 import todo
+from pwe import api_v1
 from pwe.settings import settings
 
-app = FastAPI()
+app = FastAPI(
+    title='PWE',
+    debug=settings.debug,
+)
 
-app.include_router(todo.views.router)
+top_router = APIRouter(prefix='/api')
+top_router.include_router(api_v1.router)
+
+app.include_router(top_router)
 
 if __name__ == "__main__":
     uvicorn.run(
