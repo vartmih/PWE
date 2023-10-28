@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from typing import TYPE_CHECKING
 
 from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTableUUID
@@ -16,6 +16,8 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     username: Mapped[str] = mapped_column(String(50), unique=True)
     first_name: Mapped[str] = mapped_column(String(50))
     last_name: Mapped[str] = mapped_column(String(50))
-    birth_date: Mapped[datetime.date] = mapped_column(nullable=True)
+    birth_date: Mapped[datetime] = mapped_column(nullable=True)
+    date_joined: Mapped[datetime] = mapped_column(default=datetime.utcnow)
+    last_login: Mapped[datetime] = mapped_column(nullable=True)
 
     todos: Mapped[list['Todo']] = relationship(back_populates="user", lazy='joined')
