@@ -3,11 +3,11 @@ import uuid
 from fastapi import APIRouter
 from fastapi_users import FastAPIUsers
 
-from .auth import auth_backend
-from .manager import get_user_manager
-from .schemas import UserCreateSchema, UserSchema, UserUpdateSchema
+from pwe.api_v1.user.auth import auth_backend
+from pwe.api_v1.user.manager import get_user_manager
+from pwe.api_v1.user.schemas import UserCreateSchema, UserSchema, UserUpdateSchema
 
-from .models import User
+from pwe.api_v1.user.models import User
 
 router = APIRouter(prefix="/users", tags=["Пользователь"])
 

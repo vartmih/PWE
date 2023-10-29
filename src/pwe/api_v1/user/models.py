@@ -7,10 +7,10 @@ from sqlalchemy import String
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 
-from ...database import Base, db_helper
+from pwe.database import Base, db_helper
 
 if TYPE_CHECKING:
-    from ..todo.models import Todo
+    from pwe.api_v1.todo.models import Todo
 
 
 class User(SQLAlchemyBaseUserTableUUID, Base):

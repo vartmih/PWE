@@ -1,7 +1,7 @@
 from fastapi_users.authentication import CookieTransport, AuthenticationBackend
 from fastapi_users.authentication import JWTStrategy
 
-from ...settings import settings
+from pwe.settings import settings
 
 cookie_transport = CookieTransport(cookie_name="pwe", cookie_max_age=3600)
 

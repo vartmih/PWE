@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from . import todo
-from . import user
+from pwe.api_v1 import todo
+from pwe.api_v1 import user
 
 router = APIRouter(prefix='/v1')
 router.include_router(router=todo.router)

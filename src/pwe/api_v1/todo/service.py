@@ -1,9 +1,9 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from ..todo.models import Todo, Status
-from ..todo.schemas import TodoCreateSchema
-from ..user.models import User
+from pwe.api_v1.todo.models import Todo, Status
+from pwe.api_v1.todo.schemas import TodoCreateSchema
+from pwe.api_v1.user.models import User
 
 
 async def get_todos(user: User) -> list[Todo | None]:

@@ -1,8 +1,8 @@
 import uvicorn
 from fastapi import FastAPI, APIRouter
 
-from . import api_v1
-from .settings import settings
+import api_v1
+from pwe.settings import settings
 
 app = FastAPI(
     title='PWE',

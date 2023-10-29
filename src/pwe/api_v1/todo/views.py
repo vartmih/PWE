@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from ..todo import service
-from ..todo.schemas import TodoSchema, TodoCreateSchema, StatusCreateSchema
-from ..user.models import User
-from ..user.views import fastapi_users
-from ...database import db_helper
+from pwe.api_v1.todo import service
+from pwe.api_v1.todo.schemas import TodoSchema, TodoCreateSchema, StatusCreateSchema
+from pwe.api_v1.user.models import User
+from pwe.api_v1.user.views import fastapi_users
+from pwe.database import db_helper
 
 router = APIRouter(tags=['Задачи'], prefix='/todo')
 
