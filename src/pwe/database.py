@@ -2,8 +2,14 @@ from asyncio import current_task
 from collections.abc import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker, async_scoped_session
+from sqlalchemy.orm import DeclarativeBase
 
-from pwe.settings import settings
+from .settings import settings
+
+
+class Base(DeclarativeBase):
+    """Базовый класс для всех моделей"""
+    pass
 
 
 class DatabaseHelper:
