@@ -1,3 +1,1 @@
-__all__ = ("views",)
-
-from . import views
+from .views import router
