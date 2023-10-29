@@ -1,56 +1,40 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
 
-from pwe.api_v1.todo.schemas import TodoCreateSchema, StatusBaseSchema
-from pwe.models import Todo, Status
+from ..todo.models import Todo, Status
+from ..todo.schemas import TodoCreateSchema
+from ..user.models import User
 
 
-async def get_todos(session: AsyncSession) -> list[Todo | None]:
+async def get_todos(user: User) -> list[Todo | None]:
     """
     Возвращает список всех задач
 
     Parameters:
-        session: асинхронная сессия для работы с базой данных
+        user: авторизованный пользователь
 
     :return: список всех задач
     """
-    todos_query = select(Todo).options(selectinload(Todo.status))
-    todos = await session.scalars(todos_query)
-    return list(todos)
+    return user.todos
 
 
-async def create_todo(session: AsyncSession, todo_data: TodoCreateSchema) -> Todo:
+async def create_todo(session: AsyncSession, todo_data: TodoCreateSchema, user: User) -> Todo:
     """
     Создает новую задачу
 
     Parameters:
         session: асинхронная сессия для работы с базой данных
         todo_data: данные для создания новой задачи
+        user: авторизованный пользователь
 
     :return: созданная задача
     """
     todo = Todo(**todo_data.dict())
+    todo.user_id = user.id
     session.add(todo)
     await session.commit()
     await session.refresh(todo)
     return todo
-
-
-async def create_status(session: AsyncSession, status_data: StatusBaseSchema) -> Status:
-    """
-    Создает новый статус
-
-    Parameters:
-        session: асинхронная сессия для работы с базой данных
-        status_data: данные для создания нового статуса
-
-    :return: созданный статус
-    """
-    status = Status(**status_data.dict())
-    session.add(status)
-    await session.commit()
-    return status
 
 
 async def get_statuses(session: AsyncSession) -> list[Status]:
