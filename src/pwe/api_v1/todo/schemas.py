@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 class StatusBaseSchema(BaseModel):
@@ -29,7 +29,8 @@ class TodoSchema(TodoBaseSchema):
     id: uuid.UUID
     created_date: datetime
     modified_date: datetime | None
-    status: StatusBaseSchema
+    author: EmailStr
+    status: str
 
     class Config:
         """Конфигурация схемы"""
