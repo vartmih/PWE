@@ -1,8 +1,8 @@
 version: "3.9"
 services:
-  pwe_db:
+  db:
     image: postgres:15.4
-    container_name: pwe_db
+    container_name: db
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
@@ -18,17 +18,17 @@ services:
     ports:
       - "${DB_EXPOSE_PORT}:5432"
 
-  pwe_api:
-    container_name: pwe_api
+  backend:
+    container_name: backend
     build:
       dockerfile: ./Dockerfile
     volumes:
-      - .:/PWE
+      - .:/usr/src/pwe
     restart: unless-stopped
     command: >
       bash -c "alembic upgrade head && python3 src/pwe/main.py"
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     depends_on:
-      pwe_db:
+      db:
         condition: service_healthy
