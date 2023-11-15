@@ -5,9 +5,8 @@ from fastapi_users import FastAPIUsers
 
 from pwe.api_v1.user.auth import auth_backend
 from pwe.api_v1.user.manager import get_user_manager
-from pwe.api_v1.user.schemas import UserCreateSchema, UserSchema, UserUpdateSchema
-
 from pwe.api_v1.user.models import User
+from pwe.api_v1.user.schemas import UserCreateSchema, UserSchema, UserUpdateSchema
 
 router = APIRouter(prefix="/users", tags=["Пользователь"])
 

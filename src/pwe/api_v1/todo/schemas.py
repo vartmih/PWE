@@ -10,7 +10,7 @@ class StatusBaseSchema(BaseModel):
 
     class Config:
         """Конфигурация схемы"""
-        orm_mode = True
+        from_attributes = True
 
 
 class StatusCreateSchema(StatusBaseSchema):
@@ -34,7 +34,7 @@ class TodoSchema(TodoBaseSchema):
 
     class Config:
         """Конфигурация схемы"""
-        orm_mode = True
+        from_attributes = True
 
 
 class TodoCreateSchema(TodoBaseSchema):

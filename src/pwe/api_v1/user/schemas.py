@@ -15,7 +15,7 @@ class UserBaseSchema(BaseModel):
 
     class Config:
         """Конфигурация схемы"""
-        orm_mode = True
+        from_attributes = True
 
 
 class UserSchema(BaseUser, UserBaseSchema):
