@@ -29,7 +29,7 @@ async def create_todo(session: AsyncSession, todo_data: TodoCreateSchema, user: 
 
     :return: созданная задача
     """
-    todo = Todo(**todo_data.dict())
+    todo = Todo(**todo_data.model_dump())
     todo.user_id = user.id
     session.add(todo)
     await session.commit()

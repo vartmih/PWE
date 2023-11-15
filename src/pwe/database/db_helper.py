@@ -1,15 +1,9 @@
-from asyncio import current_task
 from collections.abc import AsyncGenerator
 
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker, async_scoped_session
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 
 from pwe.settings import settings
-
-
-class Base(DeclarativeBase):
-    """Базовый класс для всех моделей"""
-    pass
 
 
 class DatabaseHelper:
@@ -33,26 +27,25 @@ class DatabaseHelper:
             autocommit=False
         )
 
-    def get_scoped_session(self):
-        """Возвращает сессию для работы с базой данных"""
-        session = async_scoped_session(
-            session_factory=self.session_factory,
-            scopefunc=current_task
-        )
-        return session
-
     async def session_dependency(self) -> AsyncGenerator[AsyncSession, None]:
         """
         Генератор сессий
 
         yield: сессия
+
+        Raise:
+            SQLAlchemyError: если произошла ошибка при подключении или при работе с базой данных
         """
-        with self.get_scoped_session() as session:
-            yield session
-            await session.remove()
+        async with self.session_factory() as session:
+            try:
+                yield session
+                await session.commit()
+            except SQLAlchemyError as error:
+                await session.rollback()
+                raise SQLAlchemyError(error)
 
 
 db_helper = DatabaseHelper(
-    db_url=settings.get_db_url(),
-    debug=settings.debug
+    db_url=settings.db_url,
+    debug=settings.DEBUG
 )

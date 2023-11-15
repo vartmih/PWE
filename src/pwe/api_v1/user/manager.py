@@ -5,15 +5,16 @@ from typing import Optional
 from fastapi import Depends, Request, Response
 from fastapi_users import BaseUserManager, UUIDIDMixin, InvalidPasswordException
 
-from pwe.api_v1.user.models import User, get_user_db
+from pwe.api_v1.user.models import User
 from pwe.api_v1.user.schemas import UserCreateSchema
+from pwe.api_v1.user.services import get_user_db
 from pwe.settings import settings
 
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     """Менеджер пользователей"""
-    reset_password_token_secret = settings.secret
-    verification_token_secret = settings.secret
+    reset_password_token_secret = settings.SECRET
+    verification_token_secret = settings.SECRET
 
     async def on_after_login(
             self,
@@ -32,7 +33,6 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
         :return: None
         """
         user.last_login = datetime.utcnow()
-        await self.user_db.session.commit()
         print(f"Пользователь {user.id} вошел в систему.")
 
     async def validate_password(self, password: str, user: UserCreateSchema | User) -> None:
@@ -63,4 +63,4 @@ async def get_user_manager(user_db=Depends(get_user_db)):
     yields:
         UserManager: менеджер пользователей
     """
-    yield UserManager(user_db)
+    yield UserManager(user_db=user_db)

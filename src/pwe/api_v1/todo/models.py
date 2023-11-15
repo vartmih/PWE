@@ -7,7 +7,7 @@ from sqlalchemy import ForeignKey, String, text
 from sqlalchemy.ext.associationproxy import association_proxy, AssociationProxy
 from sqlalchemy.orm import Mapped, relationship, mapped_column
 
-from pwe.database import Base
+from pwe.database.base import Base
 
 if TYPE_CHECKING:
     from pwe.api_v1.user.models import User

@@ -1,24 +1,28 @@
-from pydantic import BaseSettings
+from pathlib import Path
+
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+env_file = f"{Path(__file__).parent.parent.parent}/.env"
 
 
 class Settings(BaseSettings):
     """Класс для настройки приложения"""
-    server_host: str
-    server_port: int
-    debug: bool
-    db_user: str
-    db_password: str
-    db_name: str
-    db_host: str
-    db_port: str
-    secret: str
+    SERVER_HOST: str
+    SERVER_PORT: int
+    DEBUG: bool
+    DB_USER: str
+    DB_PASSWORD: str
+    DB_NAME: str
+    DB_HOST: str
+    DB_PORT: str
+    SECRET: str
 
-    def get_db_url(self) -> str:
+    model_config = SettingsConfigDict(env_file=env_file, env_file_encoding='utf-8', extra='ignore')
+
+    @property
+    def db_url(self) -> str:
         """Возвращает URL для подключения к базе данных"""
-        return f'postgresql+asyncpg://{self.db_user}:{self.db_password}@{self.db_host}:{self.db_port}/{self.db_name}'
+        return f'postgresql+asyncpg://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}'
 
 
-settings = Settings(
-    _env_file=".env",
-    _env_file_encoding='utf-8'
-)
+settings = Settings()
