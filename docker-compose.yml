@@ -23,7 +23,7 @@ services:
     build:
       dockerfile: ./Dockerfile
     volumes:
-      - .:/usr/src/pwe
+      - .:/usr/src/app
     restart: unless-stopped
     command: >
       bash -c "alembic upgrade head && python3 src/pwe/main.py"
