@@ -27,7 +27,7 @@ jobs:
         poetry install
     - name: Lint with flake8
       run: |
-        flake8 src
+        flake8 ./src
     - name: Test with pytest
       run: |
         pytest
