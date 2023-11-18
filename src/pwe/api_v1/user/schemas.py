@@ -13,7 +13,7 @@ class UserBaseSchema(BaseModel):
     last_name: str
     birth_date: datetime.date
 
-    class Config:
+    class ConfigDict:
         """Конфигурация схемы"""
         from_attributes = True
 

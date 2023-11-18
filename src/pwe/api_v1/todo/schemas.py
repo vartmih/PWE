@@ -8,7 +8,7 @@ class StatusBaseSchema(BaseModel):
     """Схема для статусов todo-задач"""
     status_name: str
 
-    class Config:
+    class ConfigDict:
         """Конфигурация схемы"""
         from_attributes = True
 
@@ -32,7 +32,7 @@ class TodoSchema(TodoBaseSchema):
     author: EmailStr
     status: str
 
-    class Config:
+    class ConfigDict:
         """Конфигурация схемы"""
         from_attributes = True
 
