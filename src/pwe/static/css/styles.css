@@ -1,0 +1,75 @@
+html {
+    font-family: 'Sofia Sans Extra Condensed', sans-serif;
+}
+
+body {
+    margin: 5% 15%;
+    padding: 0;
+    background-color: #e3dede;
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.title__general {
+    font-size: 60px;
+}
+
+.title__sub {
+    font-size: 40px;
+}
+
+.title__version {
+    font-size: 30px;
+}
+
+.description {
+    margin-top: 3%;
+    font-size: 30px;
+    text-indent: 5%;
+}
+
+.description__list {
+    text-indent: 0;
+    list-style-type: circle;
+}
+
+.documentation {
+    font-size: 35px;
+}
+
+a {
+    text-decoration: none;
+    color: red;
+}
+
+a:hover {
+  color: #bd4215;
+}
+
+a:visited {
+  color: #bd4215;
+}
+
+.list_technologies {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 30px;
+}
+
+.list_technologies__item {
+    border: black 1px solid;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+    padding: 0 1%;
+    margin: 1%;
+    text-align: center;
+}
+
+.repository {
+    font-size: 30px;
+}
