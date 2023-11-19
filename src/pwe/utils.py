@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+import pkg_resources
 from alembic.config import Config
 
 from pwe.settings import settings
@@ -30,3 +31,33 @@ def get_alembic_config_from_db_url(db_url: str | None = None) -> Config:
     config.set_main_option('sqlalchemy.url', db_url)
 
     return config
+
+
+def get_app_info() -> dict[str, str]:
+    """
+    Возвращает информацию об используемых пакетах и их версиях
+    :return: словарь с названиями пакетов и их версиями, если это питоновские пакеты
+    """
+    packages = (
+        'pwe',
+        'fastapi',
+        'sqlalchemy',
+        'pydantic',
+        'alembic',
+        'pytest',
+        'pytest-asyncio',
+        'fastapi-users',
+        'uvicorn',
+        'asyncpg',
+        'python=3.10',
+        'postgresql=15.4',
+        'docker',
+        'docker-compose',
+    )
+    app_info = {}
+    for package in packages:
+        try:
+            app_info[package] = pkg_resources.get_distribution(package).version
+        except Exception:  # noqa
+            app_info[package] = 'unknown'
+    return app_info

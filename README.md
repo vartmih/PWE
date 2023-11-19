@@ -1,5 +1,5 @@
 [![pwe-build](https://github.com/vartmih/PWE/actions/workflows/fastapi-app.yml/badge.svg?branch=develop)](https://github.com/vartmih/PWE/actions/workflows/fastapi-app.yml)
-<h1 align="center">PWE - plan, write do, execute.</h1>
+<h1 align="center">PWE - plan, write, execute.</h1>
 
 API для работы с индивидуальными задачами, с помощью авторизации (личного кабинета).
 
