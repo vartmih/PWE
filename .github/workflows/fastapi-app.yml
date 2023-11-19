@@ -61,6 +61,9 @@ jobs:
        - name: Создание .env файла
          run: |
           echo "${{ secrets.ENV_FILE }}" > .env
+       - name: Создание папки для хранения данных Postgres
+         run: |
+          mkdir -p db_data
        - name: Остановка и удаление прошлых контейнеров
          run: docker compose down
        - name: Удаление неиспользуемых данных
