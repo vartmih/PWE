@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import uvicorn
 from fastapi import FastAPI, APIRouter, Request
 from fastapi.responses import HTMLResponse
@@ -8,14 +10,16 @@ from pwe import api_v1
 from pwe.settings import settings
 from pwe.utils import get_app_info
 
+static_dir = Path(__file__).parent / 'static'
+
 app = FastAPI(
     title='PWE',
     debug=settings.DEBUG,
 )
 
 # Подключаем статику и шаблоны
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="static/templates")
+app.mount("/static", StaticFiles(directory=f"{static_dir}"), name="static")
+templates = Jinja2Templates(directory=f"{static_dir}/templates")
 
 
 @app.get("/", response_class=HTMLResponse, include_in_schema=False)
