@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pkg_resources
 from alembic.config import Config
+import toml
 
 from pwe.settings import settings
 
@@ -61,3 +62,14 @@ def get_app_info() -> dict[str, str]:
         except Exception:  # noqa
             app_info[package] = 'unknown'
     return app_info
+
+
+def get_version_app() -> str:
+    """
+    Получение версии приложения из pyproject.toml
+    :return: версия приложения
+    """
+    application = toml.load(
+        Path(__file__).parent.parent.parent / "pyproject.toml")
+
+    return application["tool"]["poetry"]["version"]

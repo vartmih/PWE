@@ -8,7 +8,7 @@ from fastapi.templating import Jinja2Templates
 
 from pwe import api_v1
 from pwe.settings import settings
-from pwe.utils import get_app_info
+from pwe.utils import get_app_info, get_version_app
 
 static_dir = Path(__file__).parent / 'static'
 
@@ -33,7 +33,14 @@ async def read_item(request: Request):
     :return: HTML страница
     """
     app_info = get_app_info()
-    return templates.TemplateResponse(name="index.html", context={"request": request, "app_info": app_info})
+    app_version = get_version_app()
+    return templates.TemplateResponse(
+        name="index.html",
+        context={
+            "request": request,
+            "app_info": app_info,
+            "app_version": app_version
+        })
 
 
 top_router = APIRouter(prefix='/api')
