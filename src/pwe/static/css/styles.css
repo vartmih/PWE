@@ -54,6 +54,11 @@ a:visited {
   color: #bd4215;
 }
 
+.technologies_title {
+    font-size: 35px;
+    margin-top: 5%;
+}
+
 .list_technologies {
     display: flex;
     flex-wrap: wrap;
@@ -72,4 +77,5 @@ a:visited {
 
 .repository {
     font-size: 30px;
+    margin-top: 5%;
 }
