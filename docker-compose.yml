@@ -14,7 +14,7 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - ./db_data:${DB_DATA}
+      - db_data:${DB_DATA}
     ports:
       - "${DB_EXPOSE_PORT}:5432"
 
@@ -32,3 +32,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+volumes:
+  db_data:
