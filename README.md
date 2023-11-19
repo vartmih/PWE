@@ -56,7 +56,7 @@ poetry run pytest
 - `flake8-docstrings-complete`
 - `flake8-fastapi`
 
-`flake8`, a так же `pytest` и дополнительные плагины указаны внутри `pyproject.toml` в качестве dev зависимостей.
+`flake8`, а также `pytest` и дополнительные плагины указаны внутри `pyproject.toml` в качестве dev зависимостей.
 
 ***Документация к API сформирована автоматически FastAPI, ознакомиться с ней можно по маршруту:***  
 `0.0.0.0:8000/docs` *- Swagger*  
