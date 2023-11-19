@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "pwe"
 version = "0.0.8"
-description = "Plan, write down, execute"
+description = "Plan, write, execute"
 authors = ["Mikhail Vartikyan <m.vartikyan@bk.ru>"]
 readme = "README.md"
 
@@ -13,6 +13,7 @@ python-dotenv = "^1.0.0"
 fastapi-users = {extras = ["sqlalchemy"], version = "^12.1.2"}
 fastapi = {extras = ["all"], version = "^0.104.1"}
 asyncpg = "^0.29.0"
+toml = "^0.10.2"
 
 [tool.poetry.group.dev.dependencies]
 flake8-fastapi = "^0.7.0"
