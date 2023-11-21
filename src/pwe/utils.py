@@ -50,6 +50,7 @@ def get_app_info() -> dict[str, str]:
         'fastapi-users',
         'uvicorn',
         'asyncpg',
+        'openpyxl',
         'python=3.10',
         'postgresql=15.4',
         'docker',
