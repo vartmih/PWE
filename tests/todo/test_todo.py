@@ -1,3 +1,4 @@
+from datetime import datetime
 from http.cookiejar import CookieJar
 
 from httpx import AsyncClient
@@ -12,6 +13,9 @@ class TestTodo:
     todo_update_data = {
         "todo": "test_update",
     }
+
+    report_valid_formats = ('csv', 'xlsx')
+    invalid_report_formats = ('pdf', 'html')
 
     @staticmethod
     async def get_todo_id(client: AsyncClient, cookie: CookieJar) -> str:
@@ -58,13 +62,28 @@ class TestTodo:
         todo = response.json()
 
         bad_request_response = await client.patch(url=f"/todos/{todo_id}", json={}, cookies=cookie)
-        bad_request_response_data = bad_request_response.json()
+        error = bad_request_response.json()
 
         assert response.status_code == 200
         assert todo['todo'] == self.todo_update_data['todo']
 
         assert bad_request_response.status_code == 400
-        assert bad_request_response_data['detail'] == 'Необходимо передать хотя бы один параметр для обновления задачи'
+        assert error['detail'] == 'Необходимо передать хотя бы один параметр для обновления задачи'
+
+    async def test_get_report(self, client: AsyncClient, cookie: CookieJar) -> None:
+        for report_format in self.report_valid_formats:
+            response = await client.get(url=f"/todos/report?report_format={report_format}", cookies=cookie)
+            file = response.content
+
+            assert response.status_code == 200
+            assert isinstance(file, bytes)
+
+        for report_format in self.invalid_report_formats:
+            response = await client.get(url=f"/todos/report?report_format={report_format}", cookies=cookie)
+            error = response.json()
+
+            assert response.status_code == 400
+            assert error['detail'] == f'Возможные форматы отчета: csv или xlsx. Был запрошен формат - {report_format}'
 
     async def test_delete_todo(self, client: AsyncClient, cookie: CookieJar) -> None:
         todo_id = await self.get_todo_id(client=client, cookie=cookie)
@@ -73,10 +92,10 @@ class TestTodo:
         data = response.json()
 
         bad_request_response = await client.delete(url=f"/todos/{todo_id}", cookies=cookie)
-        bad_request_response_data = bad_request_response.json()
+        error = bad_request_response.json()
 
         assert response.status_code == 200
         assert data['message'] == 'Задача успешно удалена'
 
         assert bad_request_response.status_code == 404
-        assert bad_request_response_data['detail'] == 'Задача не найдена'
+        assert error['detail'] == 'Задача не найдена'
