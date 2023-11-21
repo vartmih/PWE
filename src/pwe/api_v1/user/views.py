@@ -12,6 +12,6 @@ router = APIRouter(prefix="/users", tags=["Пользователь"])
 
 fastapi_users = FastAPIUsers[User, uuid.UUID](get_user_manager, [auth_backend])
 
-router.include_router(fastapi_users.get_auth_router(auth_backend))
 router.include_router(fastapi_users.get_register_router(UserSchema, UserCreateSchema))
+router.include_router(fastapi_users.get_auth_router(auth_backend))
 router.include_router(fastapi_users.get_users_router(UserSchema, UserUpdateSchema))
