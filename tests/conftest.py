@@ -63,6 +63,7 @@ async def override_async_session():
     """
     async with DB_HELPER.session_factory() as session:
         yield session
+        await session.commit()
 
 
 #  Подменяем зависимость на сессию с подключением к тестовой базе данных
