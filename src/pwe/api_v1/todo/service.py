@@ -7,7 +7,9 @@ from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from pwe.api_v1.todo.models import Todo, Status
+from pwe.api_v1.todo.query_params import ReportQueryParams
 from pwe.api_v1.todo.schemas import TodoCreateSchema, TodoUpdateSchema
+from pwe.api_v1.todo.utils import get_report_to_csv, get_report_to_xlsx
 from pwe.api_v1.user.models import User
 
 
@@ -78,7 +80,7 @@ async def update_todo(session: AsyncSession, todo_id: uuid.UUID,
             detail="Необходимо передать хотя бы один параметр для обновления задачи"
         )
 
-    data["modified_date"] = datetime.utcnow()
+    data["modified_date"] = datetime.now()
 
     stmt = update(Todo).filter(Todo.id == todo_id).values(**data)
     await session.execute(stmt)
@@ -114,3 +116,31 @@ async def delete_todo(session: AsyncSession, todo_id: uuid.UUID) -> Union[dict[s
     await session.delete(todo)
 
     return {"message": "Задача успешно удалена"}
+
+
+async def get_report(params: ReportQueryParams, user: User) -> Union[dict[str, str], HTTPException]:
+    """
+    Возвращает отчёт по задачам
+
+    Parameters:
+        user: авторизованный пользователь
+        params: query параметры
+
+    Raise:
+        HTTPException: неверный формат
+
+    :return: отчёт по задачам
+    """
+    report_format = params.report_format
+
+    func_map = {
+        'csv': get_report_to_csv,
+        'xlsx': get_report_to_xlsx
+    }
+    if report_format not in ('csv', 'xlsx'):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Возможные форматы отчета: csv или xlsx. Был запрошен формат - {report_format}"
+        )
+    file_info = await func_map[report_format](todos=user.todos, user_id=user.id)
+    return file_info

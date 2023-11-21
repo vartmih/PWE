@@ -16,11 +16,12 @@ if TYPE_CHECKING:
 class Todo(Base):
     """Модель для todo-задач"""
     __tablename__ = 'todo'
-    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4,
+                                          server_default=text("gen_random_uuid()"))
     todo: Mapped[str] = mapped_column(String(150))
     modified_date: Mapped[datetime | None]
     status_id: Mapped[uuid.UUID] = mapped_column(ForeignKey('status.id', ondelete='CASCADE', onupdate='CASCADE'))
-    created_date: Mapped[datetime] = mapped_column(default=datetime.utcnow)
+    created_date: Mapped[datetime] = mapped_column(default=datetime.now)
     user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'))
 
     status_obj: Mapped['Status'] = relationship(back_populates='todos', viewonly=True, lazy='joined')
