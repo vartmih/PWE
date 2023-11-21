@@ -24,6 +24,7 @@ body {
 
 .title__version {
     font-size: 30px;
+    color: #009485;
 }
 
 .description {
@@ -78,4 +79,10 @@ a:visited {
 .repository {
     font-size: 30px;
     margin-top: 5%;
+}
+
+@media (max-width: 400px) {
+    body {
+        margin: 3% 3%;
+    }
 }
