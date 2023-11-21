@@ -52,7 +52,7 @@ jobs:
         pytest
  prepare-environment:
      runs-on: self-hosted
-     needs: test
+     needs: tests
      environment: production
      steps:
        - name: Проверка репозитория
