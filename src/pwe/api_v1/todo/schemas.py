@@ -4,24 +4,20 @@ from datetime import datetime
 from pydantic import BaseModel, EmailStr
 
 
-class StatusBaseSchema(BaseModel):
+class StatusSchema(BaseModel):
     """Схема для статусов todo-задач"""
     status_name: str
+    id: uuid.UUID
 
     class ConfigDict:
         """Конфигурация схемы"""
         from_attributes = True
 
 
-class StatusCreateSchema(StatusBaseSchema):
-    """Расширенная схема для статусов todo-задач"""
-    id: uuid.UUID
-
-
 class TodoBaseSchema(BaseModel):
     """Схема для todo-задач"""
     todo: str
-    status_id: uuid.UUID
+    status: str
 
 
 class TodoSchema(TodoBaseSchema):
@@ -30,13 +26,29 @@ class TodoSchema(TodoBaseSchema):
     created_date: datetime
     modified_date: datetime | None
     author: EmailStr
-    status: str
 
     class ConfigDict:
         """Конфигурация схемы"""
         from_attributes = True
 
 
-class TodoCreateSchema(TodoBaseSchema):
+class TodoCreateSchema(BaseModel):
     """Схема для создания todo-задач"""
-    pass
+    todo: str
+    status_id: uuid.UUID
+
+
+class TodoUpdateSchema(BaseModel):
+    """Схема для обновления todo-задач"""
+    todo: str | None = None
+    status_id: uuid.UUID | None = None
+
+
+class NoDataExceptionSchema(BaseModel):
+    """Схема для 400 статуса - нет данных для обновления"""
+    detail: str = 'Необходимо передать хотя бы один параметр для обновления задачи'
+
+
+class TodoDoesNotExistSchema(BaseModel):
+    """Схема для 404 статуса - Задача не найдена"""
+    detail: str = 'Задача не найдена'

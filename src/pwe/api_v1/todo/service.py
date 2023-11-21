@@ -1,9 +1,28 @@
-from sqlalchemy import select
+import uuid
+from datetime import datetime
+from typing import Union
+
+from fastapi import HTTPException, status
+from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from pwe.api_v1.todo.models import Todo, Status
-from pwe.api_v1.todo.schemas import TodoCreateSchema
+from pwe.api_v1.todo.schemas import TodoCreateSchema, TodoUpdateSchema
 from pwe.api_v1.user.models import User
+
+
+async def get_statuses(session: AsyncSession) -> list[Status]:
+    """
+    Возвращает список всех статусов
+
+    Parameters:
+        session: асинхронная сессия для работы с базой данных
+
+    :return: список всех статусов
+    """
+    status_query = select(Status)
+    statuses = await session.scalars(status_query)
+    return list(statuses)
 
 
 async def get_todos(user: User) -> list[Todo | None]:
@@ -37,15 +56,61 @@ async def create_todo(session: AsyncSession, todo_data: TodoCreateSchema, user: 
     return todo
 
 
-async def get_statuses(session: AsyncSession) -> list[Status]:
+async def update_todo(session: AsyncSession, todo_id: uuid.UUID,
+                      todo_data: TodoUpdateSchema) -> Union[Todo, HTTPException]:
     """
-    Возвращает список всех статусов
+    Обновляет задачу
 
     Parameters:
         session: асинхронная сессия для работы с базой данных
+        todo_id: идентификатор задачи
+        todo_data: данные для обновления задачи
 
-    :return: список всех статусов
+    Raise:
+        HTTPException: нет данных для обновления
+
+    :return: обновленная задача
     """
-    status_query = select(Status)
-    statuses = await session.scalars(status_query)
-    return list(statuses)
+    data = {key: value for key, value in todo_data.model_dump().items() if value is not None}
+    if not data:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Необходимо передать хотя бы один параметр для обновления задачи"
+        )
+
+    data["modified_date"] = datetime.utcnow()
+
+    stmt = update(Todo).filter(Todo.id == todo_id).values(**data)
+    await session.execute(stmt)
+
+    query = select(Todo).filter(Todo.id == todo_id)
+    todo = await session.scalar(query)
+
+    return todo
+
+
+async def delete_todo(session: AsyncSession, todo_id: uuid.UUID) -> Union[dict[str, str], HTTPException]:
+    """
+    Удаляет задачу
+
+    Parameters:
+        session: асинхронная сессия для работы с базой данных
+        todo_id: идентификатор задачи
+
+    Raise:
+        HTTPException: задача не найдена
+
+    :return: message -> "Задача успешно удалена"
+    """
+    query = select(Todo).filter(Todo.id == todo_id)
+    todo = await session.scalar(query)
+
+    if not todo:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Задача не найдена"
+        )
+
+    await session.delete(todo)
+
+    return {"message": "Задача успешно удалена"}
