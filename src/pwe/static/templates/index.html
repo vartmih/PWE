@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Extra+Condensed&display=swap" rel="stylesheet">
+    <title>PWE | plan, write, execute</title>
+</head>
+<body>
+    <div class="title">
+        <span class="title__general">
+            PLAN, WRITE, EXECUTE!
+        </span>
+        <span class="title__sub">
+            API для работы с индивидуальными задачами, с помощью авторизации (личного кабинета).
+        </span>
+        <span class="title__version">
+            Версия API: {{ app_version }}
+        </span>
+    </div>
+
+    <div class="description">
+        <span>
+            API предоставляется работу с CRUD (создать, прочитать, обновить, удалить) операциями для задач.
+            Работа с задачами осуществляется с помощью личного кабинета (регистрация и авторизация).
+            Для аутентификации используется JWT-токен. Токен автоматически передается через cookie.
+            Есть возможность выгрузить отчет по всем задачам в формате CSV или XLSX.
+        </span>
+        <span class="description__status">Существует 5 статусов задач:</span>
+        <ul class="description__list">
+            <li>Запланировано</li>
+            <li>В работе</li>
+            <li>Выполнено</li>
+            <li>В ожидании</li>
+            <li>Отменено</li>
+        </ul>
+    </div>
+    <div class="documentation">
+        <span>
+            Полная документация API доступна по ссылкам:
+            <a href="/docs" target="_blank">Swagger UI</a>
+            и
+            <a href="/redoc" target="_blank">ReDoc</a>
+            .
+        </span>
+    </div>
+    <div class="technologies_title">
+        <span>Используемые технологии:</span>
+    </div>
+    <div class="list_technologies">
+        {% for technology, version in app_info.items() %}
+            {% if technology != 'pwe' %}
+                <div class="list_technologies__item">
+                    {% if '=' in technology %}
+                        <span>{{ technology.split('=')[0] }}: <{{ technology.split('=')[1] }}></span>
+                    {% elif version == 'unknown' %}
+                        <span>{{ technology }}</span>
+                    {% else %}
+                        <span>{{ technology }}: <{{ version }}></span>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="repository">
+        <span>Репозиторий: <a href="https://github.com/vartmih/pwe" target="_blank">GitHub PWE</a></span>
+    </div>
+
+</body>
+</html>

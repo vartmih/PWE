@@ -1,8 +1,5 @@
 .idea
-.DS_Store
-.env
-venv
 poetry.lock
-db_data
 __pycache__
+.DS_Store
 .pytest_cache
