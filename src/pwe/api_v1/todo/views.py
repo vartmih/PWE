@@ -2,16 +2,19 @@ import uuid
 from typing import Annotated
 
 from fastapi import APIRouter, Depends
+from fastapi.responses import FileResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from pwe.api_v1.todo import service
+from pwe.api_v1.todo.query_params import ReportQueryParams
 from pwe.api_v1.todo.schemas import (
     TodoSchema,
     TodoCreateSchema,
     StatusSchema,
     TodoUpdateSchema,
     NoDataExceptionSchema,
-    TodoDoesNotExistSchema
+    TodoDoesNotExistSchema,
+    InvalidReportFormatSchema
 )
 from pwe.api_v1.user.dependencies import current_active_user
 from pwe.api_v1.user.models import User
@@ -52,3 +55,10 @@ async def delete_todo(todo_id: uuid.UUID, session: Annotated[AsyncSession, Depen
 async def get_statuses(session: Annotated[AsyncSession, Depends(async_session)]):
     """Список всех статусов"""  # noqa DCO020
     return await service.get_statuses(session=session)
+
+
+@router.get('/report', responses={400: {"model": InvalidReportFormatSchema}})
+async def get_report(params: ReportQueryParams = Depends(), user: User = Depends(current_active_user)): # noqa CF009
+    """Запрос отчета по задачам"""  # noqa DCO020
+    file_info = await service.get_report(params=params, user=user)
+    return FileResponse(**file_info)

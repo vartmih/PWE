@@ -52,3 +52,8 @@ class NoDataExceptionSchema(BaseModel):
 class TodoDoesNotExistSchema(BaseModel):
     """Схема для 404 статуса - Задача не найдена"""
     detail: str = 'Задача не найдена'
+
+
+class InvalidReportFormatSchema(BaseModel):
+    """Схема для 400 статуса - неверный формат отчета"""
+    detail: str = 'Возможные форматы отчета: csv или xlsx. Был запрошен формат - {report_format}'
