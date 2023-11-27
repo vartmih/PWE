@@ -57,3 +57,8 @@ class TodoDoesNotExistSchema(BaseModel):
 class InvalidReportFormatSchema(BaseModel):
     """Схема для 400 статуса - неверный формат отчета"""
     detail: str = 'Возможные форматы отчета: csv или xlsx. Был запрошен формат - {report_format}'
+
+
+class StatusDoesNotExistSchema(BaseModel):
+    """Схема для 400 статуса - недопустимый id статуса задачи"""
+    detail: str = 'Недопустимый id статуса задачи'

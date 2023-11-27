@@ -14,7 +14,7 @@ from pwe.api_v1.todo.schemas import (
     TodoUpdateSchema,
     NoDataExceptionSchema,
     TodoDoesNotExistSchema,
-    InvalidReportFormatSchema
+    InvalidReportFormatSchema, StatusDoesNotExistSchema
 )
 from pwe.api_v1.user.dependencies import current_active_user
 from pwe.api_v1.user.models import User
@@ -29,8 +29,9 @@ async def get_statuses(session: Annotated[AsyncSession, Depends(async_session)])
     return await service.get_statuses(session=session)
 
 
-@router.post('', response_model=TodoSchema)
-async def create_todo(todo_data: TodoCreateSchema, session: Annotated[AsyncSession, Depends(async_session)],
+@router.post('', response_model=TodoSchema, responses={400: {"model": StatusDoesNotExistSchema}})
+async def create_todo(todo_data: TodoCreateSchema, # noqa CF009
+                      session: Annotated[AsyncSession, Depends(async_session)],
                       user: User = Depends(current_active_user)):
     """Создание новой задачи"""  # noqa DCO020
     return await service.create_todo(session=session, todo_data=todo_data, user=user)

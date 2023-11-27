@@ -39,7 +39,7 @@ async def get_todos(user: User) -> list[Todo | None]:
     return user.todos
 
 
-async def create_todo(session: AsyncSession, todo_data: TodoCreateSchema, user: User) -> Todo:
+async def create_todo(session: AsyncSession, todo_data: TodoCreateSchema, user: User) -> Union[Todo, HTTPException]:
     """
     Создает новую задачу
 
@@ -48,8 +48,19 @@ async def create_todo(session: AsyncSession, todo_data: TodoCreateSchema, user: 
         todo_data: данные для создания новой задачи
         user: авторизованный пользователь
 
+    Raise:
+        HTTPException: недопустимый id статуса задачи
+
     :return: созданная задача
     """
+    data = todo_data.model_dump()
+    statuses = await get_statuses(session)
+    statuses_ids = [status_obj.id for status_obj in statuses]
+    if data["status_id"] not in statuses_ids:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Недопустимый id статуса задачи"
+        )
     todo = Todo(**todo_data.model_dump())
     todo.user_id = user.id
     session.add(todo)
