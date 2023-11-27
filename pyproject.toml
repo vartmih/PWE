@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pwe"
-version = "1.0.0"
+version = "1.0.1"
 description = "Plan, write, execute"
 authors = ["Mikhail Vartikyan <m.vartikyan@bk.ru>"]
 readme = "README.md"

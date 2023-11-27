@@ -1,5 +1,4 @@
 import csv
-import mimetypes
 import uuid
 from asyncio import sleep
 from datetime import datetime
@@ -62,20 +61,20 @@ async def get_report_to_csv(todos: list[Todo], user_id: uuid.UUID) -> dict[str, 
         file_info = {
             'path': path,
             'filename': f'report_{datetime.now().strftime("%d_%m_%Y")}.csv',
-            'media_type': mimetypes.guess_type(path)[0]
+            'media_type': 'text/csv'
         }
         return file_info
 
 
 async def get_report_to_xlsx(todos: list[Todo], user_id: uuid.UUID) -> dict[str, str]:
     """
-        Формирует отчет по задачам пользователя в формате csv
+        Формирует отчет по задачам пользователя в формате xlsx
 
         Parameters:
             todos: список задач
             user_id: идентификатор пользователя
 
-        :return: данные о csv файле
+        :return: данные о xlsx файле
         """
     path = f'/tmp/report_{user_id}.xlsx'
 
@@ -116,6 +115,6 @@ async def get_report_to_xlsx(todos: list[Todo], user_id: uuid.UUID) -> dict[str,
     file_info = {
         'path': path,
         'filename': f'report_{datetime.now().strftime("%d_%m_%Y")}.xlsx',
-        'media_type': mimetypes.guess_type(path)[0]
+        'media_type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     }
     return file_info
