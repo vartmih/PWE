@@ -6,9 +6,9 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from pwe import api_v1
-from pwe.settings import settings
-from pwe.utils import get_app_info, get_version_app
+from backend import api_v1
+from backend.settings import settings
+from backend.utils import get_app_info, get_version_app
 
 static_dir = Path(__file__).parent / 'static'
 

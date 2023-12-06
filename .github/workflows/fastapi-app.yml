@@ -1,4 +1,4 @@
-name: pwe-build
+name: backend-build
 
 on:
   push:

@@ -6,11 +6,11 @@ from fastapi import HTTPException, status
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from pwe.api_v1.todo.models import Todo, Status
-from pwe.api_v1.todo.query_params import ReportQueryParams
-from pwe.api_v1.todo.schemas import TodoCreateSchema, TodoUpdateSchema
-from pwe.api_v1.todo.utils import get_report_to_csv, get_report_to_xlsx
-from pwe.api_v1.user.models import User
+from backend.api_v1.todo.models import Todo, Status
+from backend.api_v1.todo.query_params import ReportQueryParams
+from backend.api_v1.todo.schemas import TodoCreateSchema, TodoUpdateSchema
+from backend.api_v1.todo.utils import get_report_to_csv, get_report_to_xlsx
+from backend.api_v1.user.models import User
 
 
 async def get_statuses(session: AsyncSession) -> list[Status]:

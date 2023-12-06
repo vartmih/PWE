@@ -6,8 +6,8 @@ from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
-from pwe import Base
-from pwe.settings import settings
+from backend import Base
+from backend.settings import settings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

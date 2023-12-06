@@ -3,7 +3,7 @@ from alembic.command import upgrade, downgrade
 from alembic.config import Config
 from alembic.script import ScriptDirectory, Script
 
-from pwe.utils import get_alembic_config_from_db_url
+from backend.utils import get_alembic_config_from_db_url
 
 
 def get_revisions():

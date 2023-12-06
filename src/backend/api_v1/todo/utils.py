@@ -7,8 +7,8 @@ import aiofiles
 from openpyxl.styles import Side, Border
 from openpyxl.workbook import Workbook
 
-from pwe.api_v1.todo.constants import TABLE_HEADER, STATUSES_MAP
-from pwe.api_v1.todo.models import Todo
+from backend.api_v1.todo.constants import TABLE_HEADER, STATUSES_MAP
+from backend.api_v1.todo.models import Todo
 
 
 def prepare_date(date: datetime) -> str | None:

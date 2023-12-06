@@ -5,9 +5,9 @@ from fastapi import APIRouter, Depends
 from fastapi.responses import FileResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from pwe.api_v1.todo import service
-from pwe.api_v1.todo.query_params import ReportQueryParams
-from pwe.api_v1.todo.schemas import (
+from backend.api_v1.todo import service
+from backend.api_v1.todo.query_params import ReportQueryParams
+from backend.api_v1.todo.schemas import (
     TodoSchema,
     TodoCreateSchema,
     StatusSchema,
@@ -16,9 +16,9 @@ from pwe.api_v1.todo.schemas import (
     TodoDoesNotExistSchema,
     InvalidReportFormatSchema, StatusDoesNotExistSchema
 )
-from pwe.api_v1.user.dependencies import current_active_user
-from pwe.api_v1.user.models import User
-from pwe.database.db_helper import async_session
+from backend.api_v1.user.dependencies import current_active_user
+from backend.api_v1.user.models import User
+from backend.database.db_helper import async_session
 
 router = APIRouter(tags=['Задачи'], prefix='/todos')
 

@@ -5,10 +5,10 @@ from typing import Optional
 from fastapi import Depends, Request, Response
 from fastapi_users import BaseUserManager, UUIDIDMixin, InvalidPasswordException
 
-from pwe.api_v1.user.models import User
-from pwe.api_v1.user.schemas import UserCreateSchema
-from pwe.api_v1.user.services import get_user_db
-from pwe.settings import settings
+from backend.api_v1.user.models import User
+from backend.api_v1.user.schemas import UserCreateSchema
+from backend.api_v1.user.services import get_user_db
+from backend.settings import settings
 
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):

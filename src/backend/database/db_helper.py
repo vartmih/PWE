@@ -3,8 +3,8 @@ from collections.abc import AsyncGenerator
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 
-from pwe.settings import settings
-from pwe.utils import get_alembic_config_from_db_url
+from backend.settings import settings
+from backend.utils import get_alembic_config_from_db_url
 
 
 class DatabaseHelper:

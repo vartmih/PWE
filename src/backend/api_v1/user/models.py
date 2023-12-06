@@ -5,10 +5,10 @@ from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTableUUID
 from sqlalchemy import String
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 
-from pwe.database.base import Base
+from backend.database.base import Base
 
 if TYPE_CHECKING:
-    from pwe.api_v1.todo.models import Todo
+    from backend.api_v1.todo.models import Todo
 
 
 class User(SQLAlchemyBaseUserTableUUID, Base):

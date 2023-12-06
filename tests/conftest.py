@@ -8,10 +8,10 @@ from httpx import AsyncClient
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import create_async_engine
 
-from pwe.database.db_helper import DatabaseHelper, async_session
-from pwe.main import app
-from pwe.settings import settings
-from pwe.utils import get_alembic_config_from_db_url
+from backend.database.db_helper import DatabaseHelper, async_session
+from backend.main import app
+from backend.settings import settings
+from backend.utils import get_alembic_config_from_db_url
 from tests.user.test_user import TestUser
 
 DATE = datetime.now().strftime("%d_%m_%Y")

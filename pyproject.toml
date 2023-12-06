@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "pwe"
+name = "pwe-backend"
 version = "1.0.2"
 description = "Plan, write, execute"
 authors = ["Mikhail Vartikyan <m.vartikyan@bk.ru>"]
