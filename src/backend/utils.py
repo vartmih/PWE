@@ -1,11 +1,11 @@
 import os
 from pathlib import Path
 
-import pkg_resources
+from importlib.metadata import version
 from alembic.config import Config
 import toml
 
-from pwe.settings import settings
+from backend.settings import settings
 
 
 def get_alembic_config_from_db_url(db_url: str | None = None) -> Config:
@@ -40,7 +40,6 @@ def get_app_info() -> dict[str, str]:
     :return: словарь с названиями пакетов и их версиями, если это питоновские пакеты
     """
     packages = (
-        'pwe',
         'fastapi',
         'sqlalchemy',
         'pydantic',
@@ -59,7 +58,7 @@ def get_app_info() -> dict[str, str]:
     app_info = {}
     for package in packages:
         try:
-            app_info[package] = pkg_resources.get_distribution(package).version
+            app_info[package] = version(package)
         except Exception:  # noqa
             app_info[package] = 'unknown'
     return app_info

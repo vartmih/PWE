@@ -52,17 +52,15 @@
     </div>
     <div class="list_technologies">
         {% for technology, version in app_info.items() %}
-            {% if technology != 'pwe' %}
-                <div class="list_technologies__item">
-                    {% if '=' in technology %}
-                        <span>{{ technology.split('=')[0] }}: <{{ technology.split('=')[1] }}></span>
-                    {% elif version == 'unknown' %}
-                        <span>{{ technology }}</span>
-                    {% else %}
-                        <span>{{ technology }}: <{{ version }}></span>
-                    {% endif %}
-                </div>
-            {% endif %}
+            <div class="list_technologies__item">
+                {% if '=' in technology %}
+                    <span>{{ technology.split('=')[0] }}: <{{ technology.split('=')[1] }}></span>
+                {% elif version == 'unknown' %}
+                    <span>{{ technology }}</span>
+                {% else %}
+                    <span>{{ technology }}: <{{ version }}></span>
+                {% endif %}
+            </div>
         {% endfor %}
     </div>
 
